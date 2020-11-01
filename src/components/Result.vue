@@ -39,17 +39,15 @@ export default {
   setup(props) {
     const { typedLetter } = toRefs(props);
     const style = ref({});
-    const timeout = ref(null);
-
-    watch(typedLetter, () => {
-      clearTimeout(timeout.value)
+    
+    const animate = () => {
       style.value = {
-        opacity: 1,
         animation: "1s slide-bottom",
       };
-      timeout.value = setTimeout(() => {
-        style.value = { opacity: 0 };
-      }, 900);
+    }
+
+    watch(typedLetter, () => {
+      animate()
     });
 
     return { style };
