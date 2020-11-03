@@ -47,5 +47,11 @@ export function useAlphabet() {
       ALPHABET.findIndex((l) => l === typedLetter) === letterIndex.value + 1
   }
 
-  return { currentLetter, resetLetter, isRightNextLetter }
+  function isRightPreviousLetter(typedLetter) {
+    return letterIndex.value === 0 &&
+      ALPHABET.findIndex((l) => l === typedLetter) === ALPHABET.length ||
+      ALPHABET.findIndex((l) => l === typedLetter) === letterIndex.value - 1
+  }
+
+  return { currentLetter, resetLetter, isRightNextLetter, isRightPreviousLetter }
 }

@@ -18,13 +18,13 @@
 </template>
 
 <script>
-import Letter from "@/components/Letter.vue"
+import Letter from "@/components/Letter.vue";
 import { toRefs, ref, watch } from "vue";
 
 export default {
   name: "Result",
   components: {
-    Letter
+    Letter,
   },
   props: {
     isSuccess: {
@@ -39,15 +39,15 @@ export default {
   setup(props) {
     const { typedLetter } = toRefs(props);
     const style = ref({});
-    
+
     const animate = () => {
       style.value = {
         animation: "1s slide-bottom",
       };
-    }
+    };
 
     watch(typedLetter, () => {
-      animate()
+      animate();
     });
 
     return { style };

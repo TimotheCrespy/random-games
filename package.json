@@ -11,7 +11,8 @@
     "core-js": "^3.6.5",
     "secure-ls": "^1.2.6",
     "vue": "^3.0.0",
-    "vue-keypress": "^2.1.1"
+    "vue-keypress": "^2.1.1",
+    "vue-router": "4.0.0-rc.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
