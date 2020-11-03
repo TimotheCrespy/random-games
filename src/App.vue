@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <Letter :value="letter" />
+    <Letter :value="currentLetter" />
     <Result :is-success="result" :typed-letter="typedLetter" />
     <strong class="time">Time: {{ (countdown / 1000).toFixed(2) }}s</strong>
     <strong class="score">Score: {{ score }}</strong>
@@ -10,105 +10,93 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
-import Keypress from "vue-keypress"
-import SecureLS from "secure-ls"
-import Letter from "@/components/Letter.vue"
-import Result from "@/components/Result.vue"
-const ALPHABET = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-const TIME = 10000
+import { ref, onMounted } from "vue";
+import { useAlphabet } from "@/composables/useAlphabet";
+import { useCountdown } from "@/composables/useCountdown";
+import { useScore } from "@/composables/useScore";
+import Keypress from "vue-keypress";
+import Letter from "@/components/Letter.vue";
+import Result from "@/components/Result.vue";
+const GAME_CODE = "next_letter";
+const TIME = 10000;
 
 export default {
-  name: 'App',
+  name: "App",
   components: { Keypress, Letter, Result },
   setup() {
-    const result = ref(false)
-    const score = ref(0)
-    const bestScore = ref(0)
-    const letterIndex = ref(0)
-    const letter = computed(() => ALPHABET[letterIndex.value])
-    const typedLetter = ref("")
-    const countdown = ref(TIME)
-    const countdownTimeout = ref(null)
-    const countdownInterval = ref(null)
-    const ls = new SecureLS({ encodingType: "AES" })
+    const result = ref(false);
+    const typedLetter = ref("");
 
-    const resetLetterIndex = () => {
-      // Generates random new index for letter
-      let lastLetterValue = letterIndex.value
-      while (lastLetterValue === letterIndex.value) {
-        letterIndex.value = Math.floor(Math.random() * ALPHABET.length)
-      }
-    }
+    const { currentLetter, resetLetter, isRightNextLetter } = useAlphabet();
+    const {
+      countdown,
+      resetCountdown,
+      setCountdownInterval,
+      clearCountdownInterval,
+      setCountdownTimeout,
+      clearCountdownTimeout,
+    } = useCountdown(TIME);
+    const {
+      score,
+      bestScore,
+      updateBestScore,
+      resetScore,
+      incrementScore,
+    } = useScore(GAME_CODE);
 
     onMounted(() => {
-      // Retrieves best score
-      if (ls.getAllKeys().includes("bestScore")) {
-        bestScore.value = ls.get('bestScore')
-      }
-      resetLetterIndex()
-    })
+      resetLetter();
+    });
 
-    const updateBestScore = (newScore) => {
-      if (newScore > bestScore.value) {
-        bestScore.value = newScore
-        ls.set('bestScore', bestScore.value)
+    function checkNextLetter(letter) {
+      typedLetter.value = letter.event.key;
+      if (isRightNextLetter(typedLetter.value)) {
+        handleRightLetter();
+        return;
       }
+
+      handleWrongLetter();
     }
 
-    const setCountdownInterval = () => {
-      // Sets interval for countdown update
-      return setInterval(() => {
-        if (countdown.value - 100 <= 0) {
-          countdown.value = 0
-          return
+    function handleRightLetter() {
+      if (!result.value || countdown.value === 0) {
+        resetScore();
+        setCountdownInterval();
+        setCountdownTimeout(() => {
+          updateBestScore(score.value);
+        });
+        if (countdown.value === 0) {
+          resetCountdown();
         }
-        countdown.value = countdown.value - 100
-      }, 100);
-    }
-    const setCountdownTimeout = () => {
-      // Sets timeout for a game
-      return setTimeout(() => {
-        updateBestScore(score.value)
-        clearInterval(countdownInterval.value)
-      }, TIME);
-    }
-
-    const checkNextLetter = (letter) => {
-      typedLetter.value = letter.event.key
-      if (letterIndex.value === ALPHABET.length - 1 && ALPHABET.findIndex(l => l === letter.event.key) === 0
-          || ALPHABET.findIndex(l => l === letter.event.key) === letterIndex.value + 1) {
-        if (!result.value) {
-          score.value = 0
-          countdownInterval.value = setCountdownInterval()
-          countdownTimeout.value = setCountdownTimeout()
-        } else if (countdown.value === 0) {
-          countdown.value = TIME
-          score.value = 0
-          countdownInterval.value = setCountdownInterval()
-          countdownTimeout.value = setCountdownTimeout()
-        }
-
-        result.value = true
-        score.value++
-        resetLetterIndex()
-        return
       }
 
+      result.value = true;
+      incrementScore();
+      resetLetter();
+    }
+
+    function handleWrongLetter() {
       if (result.value) {
-        clearTimeout(countdownTimeout.value)
-        clearInterval(countdownInterval.value)
-        countdown.value = TIME
+        clearCountdownTimeout();
+        clearCountdownInterval();
+        resetCountdown();
       }
 
-      result.value = false
-      score.value = 0
-      return
+      result.value = false;
+      resetScore();
     }
 
-    return { letter, letterIndex, checkNextLetter, result, score, bestScore, typedLetter, countdown }
-  }
-}
+    return {
+      currentLetter,
+      checkNextLetter,
+      result,
+      score,
+      bestScore,
+      typedLetter,
+      countdown,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -119,9 +107,14 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: rgb(2,0,36);
-  background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 34%, rgba(0,212,255,1) 100%);
-  
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    45deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 34%,
+    rgba(0, 212, 255, 1) 100%
+  );
+
   .time,
   .score,
   .best-score {
