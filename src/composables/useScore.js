@@ -31,7 +31,11 @@ export function useScore(gameCode) {
       score.value++
       return
     }
-    score.value = value;
+    if ((score.value += value) <= 0) {
+      score.value = 0;
+      return
+    }
+    score.value += value;
   }
 
   return { score, bestScore, updateBestScore, resetScore, incrementScore }

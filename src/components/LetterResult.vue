@@ -1,51 +1,52 @@
 <template>
-  <div class="result" :style="style" :key="selectedCode">
+  <div class="result" :style="style" :key="typedLetter">
     <div v-if="isSuccess" class="success">
-      <strong>Good!</strong>
+      <Letter :value="typedLetter" />
+      <br />
+      <span>Good!</span>
       <br />
       <span>+1</span>
     </div>
     <div v-else class="failure">
-      <strong>Try again.</strong>
+      <Letter :value="typedLetter" />
       <br />
-      <span>-1</span>
+      <span>Try again.</span>
+      <br />
+      <span>Back to 0</span>
     </div>
   </div>
 </template>
 
 <script>
+import Letter from "@/components/Letter.vue";
 import { toRefs, ref, watch } from "vue";
 
 export default {
-  name: "Result",
+  name: "LetterResult",
+  components: {
+    Letter,
+  },
   props: {
     isSuccess: {
       type: Boolean,
       required: true,
     },
-    selectedCode: {
+    typedLetter: {
       type: String,
       required: true,
     },
   },
   setup(props) {
-    const ANIMATION_DURATION = 1000;
-    const { selectedCode } = toRefs(props);
+    const { typedLetter } = toRefs(props);
     const style = ref({});
 
     const animate = () => {
       style.value = {
-        display: "block",
-        animation: `${ANIMATION_DURATION}ms slide-bottom`,
+        animation: "1s slide-bottom",
       };
-      setTimeout(() => {
-        style.value = {
-          display: "none",
-        };
-      }, ANIMATION_DURATION);
     };
 
-    watch(selectedCode, () => {
+    watch(typedLetter, () => {
       animate();
     });
 
@@ -56,9 +57,8 @@ export default {
 
 <style lang="scss">
 .result {
-  display: none;
   position: absolute;
-  top: 72vh;
+  top: 46vh;
   opacity: 0;
   text-align: center;
 

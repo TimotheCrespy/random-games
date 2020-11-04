@@ -1,7 +1,8 @@
 <template>
   <div class="previous-letter">
+    <strong class="instructions">Previous letter?</strong>
     <Letter :value="currentLetter" />
-    <Result :is-success="result" :typed-letter="typedLetter" />
+    <LetterResult :is-success="result" :typed-letter="typedLetter" />
     <strong class="time">Time: {{ (countdown / 1000).toFixed(2) }}s</strong>
     <strong class="score">Score: {{ score }}</strong>
     <strong class="best-score">Best score: {{ bestScore }}</strong>
@@ -16,13 +17,13 @@ import { useCountdown } from "@/composables/useCountdown";
 import { useScore } from "@/composables/useScore";
 import Keypress from "vue-keypress";
 import Letter from "@/components/Letter.vue";
-import Result from "@/components/Result.vue";
+import LetterResult from "@/components/LetterResult.vue";
 const GAME_CODE = "previous_letter";
 const TIME = 10000;
 
 export default {
   name: "PreviousLetter",
-  components: { Keypress, Letter, Result },
+  components: { Keypress, Letter, LetterResult },
   setup() {
     const result = ref(false);
     const typedLetter = ref("");
@@ -115,10 +116,14 @@ export default {
     rgba(252, 176, 69, 1) 100%
   );
 
+  .instructions,
   .time,
   .score,
   .best-score {
     color: #fff;
+  }
+  .instructions {
+    margin-bottom: 1rem;
   }
   .time {
     margin-top: 1rem;
