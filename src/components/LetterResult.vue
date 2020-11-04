@@ -10,7 +10,7 @@
     <div v-else class="failure">
       <Letter :value="typedLetter" />
       <br />
-      <span>Try again</span>
+      <span>Try again.</span>
       <br />
       <span>Back to 0</span>
     </div>
@@ -22,7 +22,7 @@ import Letter from "@/components/Letter.vue";
 import { toRefs, ref, watch } from "vue";
 
 export default {
-  name: "Result",
+  name: "LetterResult",
   components: {
     Letter,
   },
