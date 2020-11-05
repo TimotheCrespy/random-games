@@ -46,13 +46,7 @@ export default {
     const selectedCode = ref("");
     const intersateRoadSign = require("@/assets/intersate-road-sign.svg");
 
-    const {
-      states,
-      currentCode,
-      answers,
-      resetCode,
-      isRightAnswer,
-    } = useUSGeography();
+    const { currentCode, answers, resetCode, isRightAnswer } = useUSGeography();
     const {
       countdown,
       resetCountdown,
@@ -106,7 +100,6 @@ export default {
     }
 
     return {
-      states,
       answers,
       currentCode,
       checkAnswer,

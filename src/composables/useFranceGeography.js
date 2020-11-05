@@ -3,7 +3,7 @@ import { useShuffle } from "@/composables/useShuffle";
 import franceRegions from "@/data/franceRegions.json";
 
 export function useFranceGeography() {
-  const currentCode = ref("");
+  const currentDepartment = ref({});
   const regions = ref(franceRegions);
   const departments = computed(() => {
     let departments = [];
@@ -18,18 +18,18 @@ export function useFranceGeography() {
 
   function resetCode() {
     // Finds random new code
-    let lastCodeValue = currentCode.value
-    while (lastCodeValue === currentCode.value) {
+    let lastCodeValue = currentDepartment.value.code
+    while (lastCodeValue === currentDepartment.value.code) {
       shuffle(departments.value)
-      currentCode.value = departments.value[0].code
+      currentDepartment.value = departments.value[0]
       answers.value = departments.value.slice(0, 4)
       shuffle(answers.value)
     }
   }
 
   function isRightAnswer(code) {
-    return code === currentCode.value;
+    return code === currentDepartment.value.code;
   }
 
-  return { regions, currentCode, answers, resetCode, isRightAnswer };
+  return { regions, departments, currentDepartment, answers, resetCode, isRightAnswer };
 }

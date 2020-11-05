@@ -16,7 +16,7 @@
           <path
             v-for="department in region.departments"
             :key="department.code"
-            :class="{ active: currentCode === department.code }"
+            :class="{ active: currentDepartment.code === department.code }"
             :d="department.path"
           ></path>
         </g>
@@ -63,7 +63,7 @@ export default {
 
     const {
       regions,
-      currentCode,
+      currentDepartment,
       answers,
       resetCode,
       isRightAnswer,
@@ -123,7 +123,7 @@ export default {
     return {
       regions,
       answers,
-      currentCode,
+      currentDepartment,
       checkAnswer,
       result,
       score,
@@ -143,13 +143,8 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: rgb(255, 255, 255);
-  background: linear-gradient(
-    0,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(135, 135, 135, 1) 40%,
-    rgba(255, 255, 255, 1) 100%
-  );
+  background: #23003c;
+  background: radial-gradient(circle, #9300ff 0%, #23003c 100%);
 
   .instructions,
   .time,

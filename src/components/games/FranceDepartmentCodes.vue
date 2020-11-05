@@ -1,24 +1,11 @@
 <template>
-  <div class="canada-provinces">
-    <strong class="instructions">Highlighted Canada province?</strong>
+  <div class="france-departments">
+    <strong class="instructions">Corresponding France department code?</strong>
 
-    <section class="map">
-      <svg
-        version="1.1"
-        viewBox="0 0 1000 1298"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        xml:space="preserve"
-      >
-        <g>
-          <path
-            v-for="province in provinces"
-            :key="province.code"
-            :class="{ active: currentCode === province.code }"
-            :d="province.path"
-          ></path>
-        </g>
-      </svg>
+    <section class="road-sign">
+      <img class="background" :src="departmentRoadSign" alt="Road sign" />
+      <span class="label">département</span>
+      <span class="code">{{ currentDepartment.name }}</span>
     </section>
 
     <div class="answers">
@@ -30,7 +17,7 @@
         @click="checkAnswer(answer.code)"
         :disabled="countdown.value === 0"
       >
-        {{ answer.name }}
+        {{ answer.code }}
       </button>
     </div>
 
@@ -43,29 +30,29 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { useCanadaGeography } from "@/composables/useCanadaGeography";
+import { useFranceGeography } from "@/composables/useFranceGeography";
 import { useCountdown } from "@/composables/useCountdown";
 import { useScore } from "@/composables/useScore";
 import Result from "@/components/Result.vue";
-const GAME_CODE = "us_states";
+const GAME_CODE = "france_department_codes";
 const TIME = 30000;
 
 export default {
-  name: "CanadaProvinces",
+  name: "FranceDepartmentCodes",
   components: {
     Result,
   },
   setup() {
     const result = ref(false);
     const selectedCode = ref("");
+    const departmentRoadSign = require("@/assets/department-road-sign.svg");
 
     const {
-      provinces,
-      currentCode,
+      currentDepartment,
       answers,
       resetCode,
       isRightAnswer,
-    } = useCanadaGeography();
+    } = useFranceGeography();
     const {
       countdown,
       resetCountdown,
@@ -119,30 +106,34 @@ export default {
     }
 
     return {
-      provinces,
       answers,
-      currentCode,
+      currentDepartment,
       checkAnswer,
       result,
       score,
       bestScore,
       countdown,
       selectedCode,
+      departmentRoadSign,
     };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.canada-provinces {
+.france-departments {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #23003c;
-  background: radial-gradient(circle, #9300ff 0%, #23003c 100%);
+  background: rgb(114, 255, 146);
+  background: radial-gradient(
+    circle,
+    rgba(114, 255, 146, 1) 0%,
+    rgba(29, 87, 42, 1) 100%
+  );
 
   .instructions,
   .time,
@@ -157,32 +148,33 @@ export default {
     margin-top: 1rem;
   }
 
-  .map {
+  .road-sign {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     max-height: 50vh;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
 
-    svg {
-      width: 100%;
+    .background {
       height: 100%;
+      max-height: 280px;
     }
 
-    path {
-      stroke: #000000;
-      stroke-width: 1px;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-opacity: 0.4;
-      fill: rgba(94, 255, 247, 1);
+    .label,
+    .code {
+      position: absolute;
+      font-size: 2rem;
+      color: #efb300;
     }
-    g path:hover {
-      fill: rgba(255, 235, 100, 1);
-      cursor: pointer;
+    .label {
+      align-self: flex-start;
+      margin-top: 0.75rem;
+      margin-left: 6rem;
     }
-    path.active {
-      fill: rgba(255, 208, 39, 1) !important;
-      box-shadow: 10px 5px 5px red;
+    .code {
+      align-self: flex-end;
+      margin-bottom: 0.75rem;
+      margin-left: 6rem;
     }
   }
 
@@ -198,13 +190,13 @@ export default {
       all: unset;
       margin-bottom: 0.5rem;
       padding: 0.4rem 1rem;
-      background: rgb(255, 208, 39);
+      background: rgb(20, 20, 236);
       background: linear-gradient(
-        135deg,
-        rgba(255, 208, 39, 1) 0%,
-        rgba(94, 255, 247, 1) 100%
+        90deg,
+        rgba(20, 20, 236, 1) 0%,
+        rgba(239, 179, 0, 1) 100%
       );
-      border: 3px solid #afeca1;
+      border: 3px solid #826476;
       border-radius: 1.25rem;
       text-align: center;
 
