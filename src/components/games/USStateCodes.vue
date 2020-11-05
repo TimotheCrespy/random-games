@@ -1,26 +1,10 @@
 <template>
-  <div class="france-departments">
-    <strong class="instructions">Highlighted France department?</strong>
+  <div class="us-state-codes">
+    <strong class="instructions">Corresponding US State?</strong>
 
-    <section class="map">
-      <svg
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        x="0px"
-        y="0px"
-        viewBox="0 0 680 590"
-        xml:space="preserve"
-      >
-        <g v-for="region in regions" :key="region.id">
-          <path
-            v-for="department in region.departments"
-            :key="department.code"
-            :class="{ active: currentCode === department.code }"
-            :d="department.path"
-          ></path>
-        </g>
-      </svg>
+    <section class="road-sign">
+      <img class="background" :src="intersateRoadSign" alt="Road sign" />
+      <span class="code">{{ currentCode }}</span>
     </section>
 
     <div class="answers">
@@ -45,29 +29,30 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { useFranceGeography } from "@/composables/useFranceGeography";
+import { useUSGeography } from "@/composables/useUSGeography";
 import { useCountdown } from "@/composables/useCountdown";
 import { useScore } from "@/composables/useScore";
 import Result from "@/components/Result.vue";
-const GAME_CODE = "france_departments";
-const TIME = 30000;
+const GAME_CODE = "us_state_codes";
+const TIME = 10000;
 
 export default {
-  name: "FranceDepartments",
+  name: "USStateCodes",
   components: {
     Result,
   },
   setup() {
     const result = ref(false);
     const selectedCode = ref("");
+    const intersateRoadSign = require("@/assets/intersate-road-sign.svg");
 
     const {
-      regions,
+      states,
       currentCode,
       answers,
       resetCode,
       isRightAnswer,
-    } = useFranceGeography();
+    } = useUSGeography();
     const {
       countdown,
       resetCountdown,
@@ -121,7 +106,7 @@ export default {
     }
 
     return {
-      regions,
+      states,
       answers,
       currentCode,
       checkAnswer,
@@ -130,24 +115,25 @@ export default {
       bestScore,
       countdown,
       selectedCode,
+      intersateRoadSign,
     };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.france-departments {
+.us-state-codes {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: rgb(35, 0, 60);
+  background: rgb(114, 255, 146);
   background: radial-gradient(
     circle,
-    rgba(147, 0, 255, 1) 0%,
-    rgba(35, 0, 60, 1) 100%
+    rgba(114, 255, 146, 1) 0%,
+    rgba(29, 87, 42, 1) 100%
   );
 
   .instructions,
@@ -163,34 +149,23 @@ export default {
     margin-top: 1rem;
   }
 
-  .map {
+  .road-sign {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     max-height: 50vh;
-    padding-right: 1rem;
 
-    svg {
-      width: 100%;
+    .background {
+      width: 60%;
       height: 100%;
+      max-height: 280px;
     }
 
-    path {
-      stroke: #000000;
-      stroke-width: 1px;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-opacity: 0.4;
-      fill: rgba(94, 255, 247, 1);
-    }
-    g:hover path {
-      fill: rgba(175, 240, 182, 1);
-    }
-    g path:hover {
-      fill: rgba(255, 235, 100, 1);
-      cursor: pointer;
-    }
-    path.active {
-      fill: rgba(255, 208, 39, 1) !important;
-      box-shadow: 10px 5px 5px red;
+    .code {
+      position: absolute;
+      font-size: 8rem;
+      color: #fff;
     }
   }
 
@@ -206,13 +181,13 @@ export default {
       all: unset;
       margin-bottom: 0.5rem;
       padding: 0.4rem 1rem;
-      background: rgb(255, 208, 39);
+      background: rgb(175, 30, 45);
       background: linear-gradient(
         135deg,
-        rgba(255, 208, 39, 1) 0%,
-        rgba(94, 255, 247, 1) 100%
+        rgba(175, 30, 45, 1) 30%,
+        rgba(0, 63, 135, 1) 70%
       );
-      border: 3px solid #afeca1;
+      border: 3px solid #582f5a;
       border-radius: 1.25rem;
       text-align: center;
 
