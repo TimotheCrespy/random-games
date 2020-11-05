@@ -13,6 +13,7 @@ import { ref, markRaw } from "vue";
 import NextLetter from "@/components/games/NextLetter";
 import PreviousLetter from "@/components/games/PreviousLetter";
 import FranceDepartments from "@/components/games/FranceDepartments";
+import USStates from "@/components/games/USStates";
 
 export default {
   name: "RandomGames",
@@ -22,6 +23,7 @@ export default {
       markRaw(NextLetter),
       markRaw(PreviousLetter),
       markRaw(FranceDepartments),
+      markRaw(USStates),
     ]);
     game.value = games.value[Math.floor(Math.random() * games.value.length)];
 
