@@ -158,6 +158,8 @@ export default {
 
     .background {
       width: 60%;
+      height: 100%;
+      max-height: 280px;
     }
 
     .code {
