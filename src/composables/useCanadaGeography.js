@@ -1,10 +1,10 @@
 import { ref } from "vue";
 import { useShuffle } from "@/composables/useShuffle";
-import usStates from "@/data/usStates.json";
+import canadaProvinces from "@/data/canadaProvinces.json";
 
-export function useUSGeography() {
+export function useCanadaGeography() {
   const currentCode = ref("");
-  const states = ref(usStates);
+  const provinces = ref(canadaProvinces);
   const answers = ref([])
 
   const { shuffle } = useShuffle();
@@ -13,9 +13,9 @@ export function useUSGeography() {
     // Finds random new code
     let lastCodeValue = currentCode.value
     while (lastCodeValue === currentCode.value) {
-      shuffle(states.value)
-      currentCode.value = states.value[0].code
-      answers.value = states.value.slice(0, 4)
+      shuffle(provinces.value)
+      currentCode.value = provinces.value[0].code
+      answers.value = provinces.value.slice(0, 4)
       shuffle(answers.value)
     }
   }
@@ -24,5 +24,5 @@ export function useUSGeography() {
     return code === currentCode.value;
   }
 
-  return { states, currentCode, answers, resetCode, isRightAnswer };
+  return { provinces, currentCode, answers, resetCode, isRightAnswer };
 }

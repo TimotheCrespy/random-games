@@ -1,10 +1,24 @@
 <template>
-  <div class="us-state-codes">
-    <strong class="instructions">Corresponding US State?</strong>
+  <div class="canada-provinces">
+    <strong class="instructions">Highlighted Canada province?</strong>
 
-    <section class="road-sign">
-      <img class="background" :src="intersateRoadSign" alt="Road sign" />
-      <span class="code">{{ currentCode }}</span>
+    <section class="map">
+      <svg
+        version="1.1"
+        viewBox="0 0 1000 1298"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xml:space="preserve"
+      >
+        <g>
+          <path
+            v-for="province in provinces"
+            :key="province.code"
+            :class="{ active: currentCode === province.code }"
+            :d="province.path"
+          ></path>
+        </g>
+      </svg>
     </section>
 
     <div class="answers">
@@ -29,30 +43,29 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { useUSGeography } from "@/composables/useUSGeography";
+import { useCanadaGeography } from "@/composables/useCanadaGeography";
 import { useCountdown } from "@/composables/useCountdown";
 import { useScore } from "@/composables/useScore";
 import Result from "@/components/Result.vue";
-const GAME_CODE = "us_state_codes";
-const TIME = 10000;
+const GAME_CODE = "us_states";
+const TIME = 30000;
 
 export default {
-  name: "USStateCodes",
+  name: "CanadaProvinces",
   components: {
     Result,
   },
   setup() {
     const result = ref(false);
     const selectedCode = ref("");
-    const intersateRoadSign = require("@/assets/intersate-road-sign.svg");
 
     const {
-      states,
+      provinces,
       currentCode,
       answers,
       resetCode,
       isRightAnswer,
-    } = useUSGeography();
+    } = useCanadaGeography();
     const {
       countdown,
       resetCountdown,
@@ -106,7 +119,7 @@ export default {
     }
 
     return {
-      states,
+      provinces,
       answers,
       currentCode,
       checkAnswer,
@@ -115,25 +128,25 @@ export default {
       bestScore,
       countdown,
       selectedCode,
-      intersateRoadSign,
     };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.us-state-codes {
+.canada-provinces {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: rgb(114, 255, 146);
-  background: radial-gradient(
-    circle,
-    rgba(114, 255, 146, 1) 0%,
-    rgba(29, 87, 42, 1) 100%
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    0,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(135, 135, 135, 1) 40%,
+    rgba(255, 255, 255, 1) 100%
   );
 
   .instructions,
@@ -149,22 +162,32 @@ export default {
     margin-top: 1rem;
   }
 
-  .road-sign {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .map {
     width: 100%;
     max-height: 50vh;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
 
-    .background {
+    svg {
+      width: 100%;
       height: 100%;
-      max-height: 280px;
     }
 
-    .code {
-      position: absolute;
-      font-size: 8rem;
-      color: #fff;
+    path {
+      stroke: #000000;
+      stroke-width: 1px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-opacity: 0.4;
+      fill: rgba(94, 255, 247, 1);
+    }
+    g path:hover {
+      fill: rgba(255, 235, 100, 1);
+      cursor: pointer;
+    }
+    path.active {
+      fill: rgba(255, 208, 39, 1) !important;
+      box-shadow: 10px 5px 5px red;
     }
   }
 
@@ -180,13 +203,13 @@ export default {
       all: unset;
       margin-bottom: 0.5rem;
       padding: 0.4rem 1rem;
-      background: rgb(175, 30, 45);
+      background: rgb(255, 208, 39);
       background: linear-gradient(
         135deg,
-        rgba(175, 30, 45, 1) 30%,
-        rgba(0, 63, 135, 1) 70%
+        rgba(255, 208, 39, 1) 0%,
+        rgba(94, 255, 247, 1) 100%
       );
-      border: 3px solid #582f5a;
+      border: 3px solid #afeca1;
       border-radius: 1.25rem;
       text-align: center;
 
