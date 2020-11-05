@@ -1,10 +1,10 @@
 <template>
-  <div class="geographic-entity-names">
-    <strong class="instructions">{{ instructions }}</strong>
+  <div class="us-state-codes">
+    <strong class="instructions">Corresponding US State?</strong>
 
     <section class="road-sign">
-      <img class="background" :src="backgroundSvg" alt="Road sign" />
-      <span class="name" :style="nameStyle">{{ currentEntity.name }}</span>
+      <img class="background" :src="intersateRoadSign" alt="Road sign" />
+      <span class="code">{{ currentCode }}</span>
     </section>
 
     <div class="answers">
@@ -16,80 +16,59 @@
         @click="checkAnswer(answer.code)"
         :disabled="countdown.value === 0"
       >
-        {{ answer.code }}
+        {{ answer.name }}
       </button>
     </div>
 
     <Result :is-success="result" :selected-code="selectedCode" />
-    <Score
-      :countdown="countdown"
-      :score="score"
-      :bestScore="bestScore"
-      :cumulativeBestScore="cumulativeBestScore"
-    />
+    <strong class="time">Time: {{ (countdown / 1000).toFixed(2) }}s</strong>
+    <strong class="score">Score: {{ score }}</strong>
+    <strong class="best-score">Best score: {{ bestScore }}</strong>
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
+import { useUSGeography } from "@/composables/useUSGeography";
 import { useCountdown } from "@/composables/useCountdown";
 import { useScore } from "@/composables/useScore";
-import { useGeography } from "@/composables/useGeography";
 import Result from "@/components/Result.vue";
-import Score from "@/components/Score.vue";
+const GAME_CODE = "us_state_codes";
+const TIME = 10000;
 
 export default {
-  name: "GeographicEntityNames",
+  name: "USStateCodes",
   components: {
     Result,
-    Score,
   },
-  props: {
-    time: {
-      type: Number,
-      required: true,
-    },
-    instructions: {
-      type: String,
-      required: true,
-    },
-    geographicZoneCode: {
-      type: String,
-      required: true,
-    },
-    backgroundSvg: {
-      type: String,
-      required: true,
-    },
-    nameStyle: {
-      type: Object,
-      required: true,
-    },
-  },
-  setup(props) {
+  setup() {
     const result = ref(false);
     const selectedCode = ref("");
+    const intersateRoadSign = require("@/assets/intersate-road-sign.svg");
 
-    const { currentEntity, answers, resetEntity, isRightAnswer } = useGeography(
-      props.geographicZoneCode
-    );
+    const {
+      states,
+      currentCode,
+      answers,
+      resetCode,
+      isRightAnswer,
+    } = useUSGeography();
     const {
       countdown,
       resetCountdown,
       setCountdownInterval,
       setCountdownTimeout,
-    } = useCountdown(props.time);
+    } = useCountdown(TIME);
     const {
       score,
       bestScore,
-      cumulativeBestScore,
       updateBestScore,
       resetScore,
       incrementScore,
-    } = useScore(`${props.geographicZoneCode}_geographic_entity_names`);
+    } = useScore(GAME_CODE);
 
     onMounted(() => {
-      resetEntity();
+      resetCode();
     });
 
     function checkAnswer(code) {
@@ -103,7 +82,7 @@ export default {
     }
 
     function handleRightAnswer() {
-      if (countdown.value === 0 || countdown.value === props.time) {
+      if (countdown.value === 0 || countdown.value === TIME) {
         resetScore();
         setCountdownInterval();
         setCountdownTimeout(() => {
@@ -114,51 +93,60 @@ export default {
 
       result.value = true;
       incrementScore();
-      resetEntity();
+      resetCode();
     }
 
     function handleWrongAnswer() {
       if (countdown.value !== 0) {
         result.value = false;
-        if (countdown.value !== props.time) {
+        if (countdown.value !== TIME) {
           incrementScore(-1);
         }
       }
     }
 
     return {
+      states,
       answers,
-      currentEntity,
+      currentCode,
       checkAnswer,
       result,
       score,
       bestScore,
-      cumulativeBestScore,
       countdown,
       selectedCode,
+      intersateRoadSign,
     };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.geographic-entity-names {
+.us-state-codes {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: rgb(238, 174, 202);
+  background: rgb(114, 255, 146);
   background: radial-gradient(
     circle,
-    rgba(238, 174, 202, 1) 0%,
-    rgba(148, 187, 233, 1) 100%
+    rgba(114, 255, 146, 1) 0%,
+    rgba(29, 87, 42, 1) 100%
   );
 
-  .instructions {
-    margin-bottom: 2rem;
+  .instructions,
+  .time,
+  .score,
+  .best-score {
     color: #fff;
+  }
+  .instructions {
+    margin-bottom: 1rem;
+  }
+  .time {
+    margin-top: 1rem;
   }
 
   .road-sign {
@@ -169,13 +157,13 @@ export default {
     max-height: 50vh;
 
     .background {
-      height: 100%;
-      max-height: 340px;
-      max-width: 100%;
+      width: 60%;
     }
 
-    .name {
+    .code {
       position: absolute;
+      font-size: 8rem;
+      color: #fff;
     }
   }
 
@@ -185,7 +173,6 @@ export default {
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
-    margin-bottom: 2rem;
     color: #fff;
 
     .answer {
