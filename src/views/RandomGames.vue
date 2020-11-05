@@ -16,6 +16,7 @@ import FranceDepartments from "@/components/games/FranceDepartments";
 import USStates from "@/components/games/USStates";
 import USStateCodes from "@/components/games/USStateCodes";
 import CanadaProvinces from "@/components/games/CanadaProvinces";
+import FranceDepartmentCodes from "@/components/games/FranceDepartmentCodes";
 
 export default {
   name: "RandomGames",
@@ -28,6 +29,7 @@ export default {
       markRaw(USStates),
       markRaw(USStateCodes),
       markRaw(CanadaProvinces),
+      markRaw(FranceDepartmentCodes),
     ]);
     game.value = games.value[Math.floor(Math.random() * games.value.length)];
 

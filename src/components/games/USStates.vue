@@ -24,10 +24,10 @@
           <circle
             fill="none"
             :stroke="currentCode === 'DC' ? '#ffd127' : '#fff'"
-            stroke-width="1.5"
+            stroke-width="2"
             cx="975.3"
             cy="351.8"
-            r="6"
+            r="8"
           />
         </g>
       </svg>
@@ -153,13 +153,8 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: rgb(255, 255, 255);
-  background: linear-gradient(
-    0,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(135, 135, 135, 1) 40%,
-    rgba(255, 255, 255, 1) 100%
-  );
+  background: #23003c;
+  background: radial-gradient(circle, #9300ff 0%, #23003c 100%);
 
   .instructions,
   .time,
