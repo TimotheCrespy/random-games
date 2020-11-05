@@ -14,6 +14,7 @@ import NextLetter from "@/components/games/NextLetter";
 import PreviousLetter from "@/components/games/PreviousLetter";
 import FranceDepartments from "@/components/games/FranceDepartments";
 import USStates from "@/components/games/USStates";
+import USStateCodes from "@/components/games/USStateCodes";
 
 export default {
   name: "RandomGames",
@@ -24,6 +25,7 @@ export default {
       markRaw(PreviousLetter),
       markRaw(FranceDepartments),
       markRaw(USStates),
+      markRaw(USStateCodes),
     ]);
     game.value = games.value[Math.floor(Math.random() * games.value.length)];
 
