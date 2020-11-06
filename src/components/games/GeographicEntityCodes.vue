@@ -1,11 +1,10 @@
 <template>
-  <div class="france-departments">
-    <strong class="instructions">Corresponding France department code?</strong>
+  <div class="geographic-entity-codes">
+    <strong class="instructions">{{ instructions }}</strong>
 
     <section class="road-sign">
-      <img class="background" :src="departmentRoadSign" alt="Road sign" />
-      <span class="label">département</span>
-      <span class="code">{{ currentDepartment.name }}</span>
+      <img class="background" :src="backgroundSvg" alt="Road sign" />
+      <span class="code" :style="codeStyle">{{ currentEntity.code }}</span>
     </section>
 
     <div class="answers">
@@ -17,7 +16,7 @@
         @click="checkAnswer(answer.code)"
         :disabled="countdown.value === 0"
       >
-        {{ answer.code }}
+        {{ answer.name }}
       </button>
     </div>
 
@@ -30,45 +29,61 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { useFranceGeography } from "@/composables/useFranceGeography";
 import { useCountdown } from "@/composables/useCountdown";
 import { useScore } from "@/composables/useScore";
+import { useGeography } from "@/composables/useGeography";
 import Result from "@/components/Result.vue";
-const GAME_CODE = "france_department_codes";
-const TIME = 30000;
 
 export default {
-  name: "FranceDepartmentCodes",
+  name: "USStateCodes",
   components: {
     Result,
   },
-  setup() {
+  props: {
+    time: {
+      type: Number,
+      required: true,
+    },
+    instructions: {
+      type: String,
+      required: true,
+    },
+    geographicZoneCode: {
+      type: String,
+      required: true,
+    },
+    backgroundSvg: {
+      type: String,
+      required: true,
+    },
+    codeStyle: {
+      type: Object,
+      required: true,
+    },
+  },
+  setup(props) {
     const result = ref(false);
     const selectedCode = ref("");
-    const departmentRoadSign = require("@/assets/department-road-sign.svg");
 
-    const {
-      currentDepartment,
-      answers,
-      resetCode,
-      isRightAnswer,
-    } = useFranceGeography();
+    const { currentEntity, answers, resetEntity, isRightAnswer } = useGeography(
+      props.geographicZoneCode
+    );
     const {
       countdown,
       resetCountdown,
       setCountdownInterval,
       setCountdownTimeout,
-    } = useCountdown(TIME);
+    } = useCountdown(props.time);
     const {
       score,
       bestScore,
       updateBestScore,
       resetScore,
       incrementScore,
-    } = useScore(GAME_CODE);
+    } = useScore(`${props.geographicZoneCode}_geographic_entity_codes`);
 
     onMounted(() => {
-      resetCode();
+      resetEntity();
     });
 
     function checkAnswer(code) {
@@ -82,7 +97,7 @@ export default {
     }
 
     function handleRightAnswer() {
-      if (countdown.value === 0 || countdown.value === TIME) {
+      if (countdown.value === 0 || countdown.value === props.time) {
         resetScore();
         setCountdownInterval();
         setCountdownTimeout(() => {
@@ -93,13 +108,13 @@ export default {
 
       result.value = true;
       incrementScore();
-      resetCode();
+      resetEntity();
     }
 
     function handleWrongAnswer() {
       if (countdown.value !== 0) {
         result.value = false;
-        if (countdown.value !== TIME) {
+        if (countdown.value !== props.time) {
           incrementScore(-1);
         }
       }
@@ -107,21 +122,20 @@ export default {
 
     return {
       answers,
-      currentDepartment,
+      currentEntity,
       checkAnswer,
       result,
       score,
       bestScore,
       countdown,
       selectedCode,
-      departmentRoadSign,
     };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.france-departments {
+.geographic-entity-codes {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -160,21 +174,8 @@ export default {
       max-height: 280px;
     }
 
-    .label,
     .code {
       position: absolute;
-      font-size: 2rem;
-      color: #efb300;
-    }
-    .label {
-      align-self: flex-start;
-      margin-top: 0.75rem;
-      margin-left: 6rem;
-    }
-    .code {
-      align-self: flex-end;
-      margin-bottom: 0.75rem;
-      margin-left: 6rem;
     }
   }
 
@@ -190,13 +191,10 @@ export default {
       all: unset;
       margin-bottom: 0.5rem;
       padding: 0.4rem 1rem;
-      background: rgb(20, 20, 236);
-      background: linear-gradient(
-        90deg,
-        rgba(20, 20, 236, 1) 0%,
-        rgba(239, 179, 0, 1) 100%
-      );
-      border: 3px solid #826476;
+      background: #d76da9(175, 30, 45);
+      background: linear-gradient(90deg, #b13cff, #fd9d52);
+
+      border: 3px solid #d76da9;
       border-radius: 1.25rem;
       text-align: center;
 

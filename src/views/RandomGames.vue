@@ -12,11 +12,18 @@
 import { ref, markRaw } from "vue";
 import NextLetter from "@/components/games/NextLetter";
 import PreviousLetter from "@/components/games/PreviousLetter";
-import FranceDepartments from "@/components/games/FranceDepartments";
-import USStates from "@/components/games/USStates";
-import USStateCodes from "@/components/games/USStateCodes";
-import CanadaProvinces from "@/components/games/CanadaProvinces";
-import FranceDepartmentCodes from "@/components/games/FranceDepartmentCodes";
+
+import CanadaProvinces from "@/components/games/geographic-entities/CanadaProvinces";
+import FranceDepartments from "@/components/games/geographic-entities/FranceDepartments";
+import USStates from "@/components/games/geographic-entities/USStates";
+
+import CanadaProvinceCodes from "@/components/games/geographic-entity-codes/CanadaProvinceCodes";
+import FranceDepartmentCodes from "@/components/games/geographic-entity-codes/FranceDepartmentCodes";
+import USStateCodes from "@/components/games/geographic-entity-codes/USStateCodes";
+
+import CanadaProvinceNames from "@/components/games/geographic-entity-names/CanadaProvinceNames";
+import FranceDepartmentNames from "@/components/games/geographic-entity-names/FranceDepartmentNames";
+import USStateNames from "@/components/games/geographic-entity-names/USStateNames";
 
 export default {
   name: "RandomGames",
@@ -25,11 +32,18 @@ export default {
     const games = ref([
       markRaw(NextLetter),
       markRaw(PreviousLetter),
+
+      markRaw(CanadaProvinces),
       markRaw(FranceDepartments),
       markRaw(USStates),
-      markRaw(USStateCodes),
-      markRaw(CanadaProvinces),
+
+      markRaw(CanadaProvinceCodes),
       markRaw(FranceDepartmentCodes),
+      markRaw(USStateCodes),
+
+      markRaw(CanadaProvinceNames),
+      markRaw(FranceDepartmentNames),
+      markRaw(USStateNames),
     ]);
     game.value = games.value[Math.floor(Math.random() * games.value.length)];
 

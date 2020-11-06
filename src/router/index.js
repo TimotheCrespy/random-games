@@ -4,6 +4,10 @@ import RandomGames from '../views/RandomGames.vue'
 const routes = [
   {
     path: '/',
+    redirect: { name: "RandomGames" }
+  },
+  {
+    path: '/random',
     name: 'RandomGames',
     component: RandomGames
   }

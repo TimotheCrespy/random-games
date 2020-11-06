@@ -1,5 +1,5 @@
 <template>
-  <div class="result" :style="style" :key="typedLetter">
+  <div class="letter-result" :style="style" :key="typedLetter">
     <div v-if="isSuccess" class="success">
       <Letter :value="typedLetter" />
       <br />
@@ -55,8 +55,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.result {
+<style lang="scss" scoped>
+.letter-result {
   position: absolute;
   top: 46vh;
   opacity: 0;

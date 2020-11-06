@@ -21,9 +21,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80px;
-  width: 80px;
-  font-size: 4rem;
+  height: 160px;
+  width: 160px;
+  font-size: 8rem;
   border: 4px solid;
   border-radius: 1rem;
   background-color: #fffc;
