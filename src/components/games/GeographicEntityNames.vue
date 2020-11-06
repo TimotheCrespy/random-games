@@ -1,26 +1,10 @@
 <template>
-  <div class="france-departments">
-    <strong class="instructions">Highlighted France department?</strong>
+  <div class="geographic-entity-names">
+    <strong class="instructions">{{ instructions }}</strong>
 
-    <section class="map">
-      <svg
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        x="0px"
-        y="0px"
-        viewBox="0 0 680 590"
-        xml:space="preserve"
-      >
-        <g v-for="region in regions" :key="region.id">
-          <path
-            v-for="department in region.departments"
-            :key="department.code"
-            :class="{ active: currentDepartment.code === department.code }"
-            :d="department.path"
-          ></path>
-        </g>
-      </svg>
+    <section class="road-sign">
+      <img class="background" :src="backgroundSvg" alt="Road sign" />
+      <span class="name" :style="nameStyle">{{ currentEntity.name }}</span>
     </section>
 
     <div class="answers">
@@ -32,7 +16,7 @@
         @click="checkAnswer(answer.code)"
         :disabled="countdown.value === 0"
       >
-        {{ answer.name }}
+        {{ answer.code }}
       </button>
     </div>
 
@@ -45,45 +29,61 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { useFranceGeography } from "@/composables/useFranceGeography";
 import { useCountdown } from "@/composables/useCountdown";
 import { useScore } from "@/composables/useScore";
+import { useGeography } from "@/composables/useGeography";
 import Result from "@/components/Result.vue";
-const GAME_CODE = "france_departments";
-const TIME = 30000;
 
 export default {
-  name: "FranceDepartments",
+  name: "GeographicEntityNames",
   components: {
     Result,
   },
-  setup() {
+  props: {
+    time: {
+      type: Number,
+      required: true,
+    },
+    instructions: {
+      type: String,
+      required: true,
+    },
+    geographicZoneCode: {
+      type: String,
+      required: true,
+    },
+    backgroundSvg: {
+      type: String,
+      required: true,
+    },
+    nameStyle: {
+      type: Object,
+      required: true,
+    },
+  },
+  setup(props) {
     const result = ref(false);
     const selectedCode = ref("");
 
-    const {
-      regions,
-      currentDepartment,
-      answers,
-      resetCode,
-      isRightAnswer,
-    } = useFranceGeography();
+    const { currentEntity, answers, resetEntity, isRightAnswer } = useGeography(
+      props.geographicZoneCode
+    );
     const {
       countdown,
       resetCountdown,
       setCountdownInterval,
       setCountdownTimeout,
-    } = useCountdown(TIME);
+    } = useCountdown(props.time);
     const {
       score,
       bestScore,
       updateBestScore,
       resetScore,
       incrementScore,
-    } = useScore(GAME_CODE);
+    } = useScore(`${props.geographicZoneCode}_geographic_entity_names`);
 
     onMounted(() => {
-      resetCode();
+      resetEntity();
     });
 
     function checkAnswer(code) {
@@ -97,7 +97,7 @@ export default {
     }
 
     function handleRightAnswer() {
-      if (countdown.value === 0 || countdown.value === TIME) {
+      if (countdown.value === 0 || countdown.value === props.time) {
         resetScore();
         setCountdownInterval();
         setCountdownTimeout(() => {
@@ -108,22 +108,21 @@ export default {
 
       result.value = true;
       incrementScore();
-      resetCode();
+      resetEntity();
     }
 
     function handleWrongAnswer() {
       if (countdown.value !== 0) {
         result.value = false;
-        if (countdown.value !== TIME) {
+        if (countdown.value !== props.time) {
           incrementScore(-1);
         }
       }
     }
 
     return {
-      regions,
       answers,
-      currentDepartment,
+      currentEntity,
       checkAnswer,
       result,
       score,
@@ -136,15 +135,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.france-departments {
+.geographic-entity-names {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #23003c;
-  background: radial-gradient(circle, #9300ff 0%, #23003c 100%);
+  background: rgb(114, 255, 146);
+  background: radial-gradient(
+    circle,
+    rgba(114, 255, 146, 1) 0%,
+    rgba(29, 87, 42, 1) 100%
+  );
 
   .instructions,
   .time,
@@ -159,34 +162,21 @@ export default {
     margin-top: 1rem;
   }
 
-  .map {
+  .road-sign {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     max-height: 50vh;
-    padding-right: 1rem;
 
-    svg {
-      width: 100%;
+    .background {
       height: 100%;
+      max-height: 340px;
+      max-width: 100vw;
     }
 
-    path {
-      stroke: #000000;
-      stroke-width: 1px;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-opacity: 0.4;
-      fill: rgba(94, 255, 247, 1);
-    }
-    g:hover path {
-      fill: rgba(175, 240, 182, 1);
-    }
-    g path:hover {
-      fill: rgba(255, 235, 100, 1);
-      cursor: pointer;
-    }
-    path.active {
-      fill: rgba(255, 208, 39, 1) !important;
-      box-shadow: 10px 5px 5px red;
+    .name {
+      position: absolute;
     }
   }
 
@@ -202,13 +192,13 @@ export default {
       all: unset;
       margin-bottom: 0.5rem;
       padding: 0.4rem 1rem;
-      background: rgb(255, 208, 39);
+      background: rgb(175, 30, 45);
       background: linear-gradient(
         135deg,
-        rgba(255, 208, 39, 1) 0%,
-        rgba(94, 255, 247, 1) 100%
+        rgba(175, 30, 45, 1) 30%,
+        rgba(0, 63, 135, 1) 70%
       );
-      border: 3px solid #afeca1;
+      border: 3px solid #582f5a;
       border-radius: 1.25rem;
       text-align: center;
 

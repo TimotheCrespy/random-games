@@ -1,23 +1,26 @@
 <template>
-  <div class="canada-provinces">
-    <strong class="instructions">Highlighted Canada province?</strong>
+  <div class="geographic-entities">
+    <strong class="instructions">{{ instructions }}</strong>
 
     <section class="map">
       <svg
         version="1.1"
-        viewBox="0 0 1000 1298"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
+        x="0px"
+        y="0px"
+        :viewBox="svgViewbox"
         xml:space="preserve"
       >
         <g>
           <path
-            v-for="province in provinces"
-            :key="province.code"
-            :class="{ active: currentCode === province.code }"
-            :d="province.path"
+            v-for="entity in entities"
+            :key="entity.code"
+            :class="{ active: currentEntity.code === entity.code }"
+            :d="entity.path"
           ></path>
         </g>
+        <slot name="specific-path" :currentEntity="currentEntity" />
       </svg>
     </section>
 
@@ -43,45 +46,65 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { useCanadaGeography } from "@/composables/useCanadaGeography";
 import { useCountdown } from "@/composables/useCountdown";
 import { useScore } from "@/composables/useScore";
+import { useGeography } from "@/composables/useGeography";
 import Result from "@/components/Result.vue";
-const GAME_CODE = "us_states";
-const TIME = 30000;
 
 export default {
-  name: "CanadaProvinces",
+  name: "GeographicEntities",
   components: {
     Result,
   },
-  setup() {
+  props: {
+    time: {
+      type: Number,
+      required: true,
+    },
+    instructions: {
+      type: String,
+      required: true,
+    },
+    geographicZoneCode: {
+      type: String,
+      required: true,
+    },
+    svgViewbox: {
+      type: String,
+      required: true,
+    },
+    specificPath: {
+      type: String,
+      default: "",
+    },
+  },
+  setup(props) {
     const result = ref(false);
     const selectedCode = ref("");
 
     const {
-      provinces,
-      currentCode,
+      entities,
+      currentEntity,
       answers,
-      resetCode,
+      resetEntity,
       isRightAnswer,
-    } = useCanadaGeography();
+    } = useGeography(props.geographicZoneCode);
     const {
       countdown,
       resetCountdown,
       setCountdownInterval,
       setCountdownTimeout,
-    } = useCountdown(TIME);
+    } = useCountdown(props.time);
     const {
       score,
       bestScore,
       updateBestScore,
       resetScore,
       incrementScore,
-    } = useScore(GAME_CODE);
+    } = useScore(`${props.geographicZoneCode}_geographic_entities`);
 
     onMounted(() => {
-      resetCode();
+      resetEntity();
     });
 
     function checkAnswer(code) {
@@ -95,7 +118,7 @@ export default {
     }
 
     function handleRightAnswer() {
-      if (countdown.value === 0 || countdown.value === TIME) {
+      if (countdown.value === 0 || countdown.value === props.time) {
         resetScore();
         setCountdownInterval();
         setCountdownTimeout(() => {
@@ -106,22 +129,22 @@ export default {
 
       result.value = true;
       incrementScore();
-      resetCode();
+      resetEntity();
     }
 
     function handleWrongAnswer() {
       if (countdown.value !== 0) {
         result.value = false;
-        if (countdown.value !== TIME) {
+        if (countdown.value !== props.time) {
           incrementScore(-1);
         }
       }
     }
 
     return {
-      provinces,
+      entities,
+      currentEntity,
       answers,
-      currentCode,
       checkAnswer,
       result,
       score,
@@ -134,7 +157,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.canada-provinces {
+.geographic-entities {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -160,8 +183,6 @@ export default {
   .map {
     width: 100%;
     max-height: 50vh;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
 
     svg {
       width: 100%;
