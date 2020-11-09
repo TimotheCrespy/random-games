@@ -3,7 +3,7 @@
     instructions="Canada Province name?"
     :time="30000"
     geographic-zone-code="canada"
-    :background-svg="transCanadaRaodSign"
+    :background-svg="canadaRaodSign"
     :name-style="{
       maxWidth: '220px',
       marginTop: '15.5rem',
@@ -16,7 +16,7 @@
 
 <script>
 import GeographicEntityNames from "@/components/games/GeographicEntityNames.vue";
-import transCanadaRaodSign from "@/assets/trans-canada-road-sign.svg";
+import canadaRaodSign from "@/assets/canada-road-sign.svg";
 
 export default {
   name: "CanadaProvinceNames",
@@ -24,7 +24,7 @@ export default {
     GeographicEntityNames,
   },
   data() {
-    return { transCanadaRaodSign };
+    return { canadaRaodSign };
   },
 };
 </script>

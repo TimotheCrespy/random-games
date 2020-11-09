@@ -5,9 +5,9 @@
     geographic-zone-code="us"
     :background-svg="usFlag"
     :name-style="{
-      marginBottom: '0.25rem',
+      marginBottom: '0rem',
       marginLeft: '12rem',
-      fontSize: '1.25rem',
+      fontSize: '1.125rem',
       color: '#fff',
     }"
   />

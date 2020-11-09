@@ -5,9 +5,10 @@
     geographic-zone-code="spain"
     :background-svg="spainRoadSign"
     :name-style="{
-      maxWidth: '420px',
+      maxWidth: '280px',
       fontSize: '2.5rem',
       color: '#fff',
+      textAlign: 'center',
     }"
   />
 </template>
