@@ -15,14 +15,17 @@ import PreviousLetter from "@/components/games/PreviousLetter";
 
 import CanadaProvinces from "@/components/games/geographic-entities/CanadaProvinces";
 import FranceDepartments from "@/components/games/geographic-entities/FranceDepartments";
+import SpainProvinces from "@/components/games/geographic-entities/SpainProvinces";
 import USStates from "@/components/games/geographic-entities/USStates";
 
 import CanadaProvinceCodes from "@/components/games/geographic-entity-codes/CanadaProvinceCodes";
 import FranceDepartmentCodes from "@/components/games/geographic-entity-codes/FranceDepartmentCodes";
+import SpainProvinceCodes from "@/components/games/geographic-entity-codes/SpainProvinceCodes";
 import USStateCodes from "@/components/games/geographic-entity-codes/USStateCodes";
 
 import CanadaProvinceNames from "@/components/games/geographic-entity-names/CanadaProvinceNames";
 import FranceDepartmentNames from "@/components/games/geographic-entity-names/FranceDepartmentNames";
+import SpainProvinceNames from "@/components/games/geographic-entity-names/SpainProvinceNames";
 import USStateNames from "@/components/games/geographic-entity-names/USStateNames";
 
 export default {
@@ -35,14 +38,17 @@ export default {
 
       markRaw(CanadaProvinces),
       markRaw(FranceDepartments),
+      markRaw(SpainProvinces),
       markRaw(USStates),
 
       markRaw(CanadaProvinceCodes),
       markRaw(FranceDepartmentCodes),
+      markRaw(SpainProvinceCodes),
       markRaw(USStateCodes),
 
       markRaw(CanadaProvinceNames),
       markRaw(FranceDepartmentNames),
+      markRaw(SpainProvinceNames),
       markRaw(USStateNames),
     ]);
     game.value = games.value[Math.floor(Math.random() * games.value.length)];
