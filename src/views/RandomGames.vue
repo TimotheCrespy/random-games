@@ -14,18 +14,21 @@ import NextLetter from "@/components/games/NextLetter";
 import PreviousLetter from "@/components/games/PreviousLetter";
 
 import CanadaProvinces from "@/components/games/geographic-entities/CanadaProvinces";
+import ChinaProvinces from "@/components/games/geographic-entities/ChinaProvinces";
 import FranceDepartments from "@/components/games/geographic-entities/FranceDepartments";
 import GermanyLands from "@/components/games/geographic-entities/GermanyLands";
 import SpainProvinces from "@/components/games/geographic-entities/SpainProvinces";
 import USStates from "@/components/games/geographic-entities/USStates";
 
 import CanadaProvinceCodes from "@/components/games/geographic-entity-codes/CanadaProvinceCodes";
+import ChinaProvinceCodes from "@/components/games/geographic-entity-codes/ChinaProvinceCodes";
 import FranceDepartmentCodes from "@/components/games/geographic-entity-codes/FranceDepartmentCodes";
 import GermanyLandCodes from "@/components/games/geographic-entity-codes/GermanyLandCodes";
 import SpainProvinceCodes from "@/components/games/geographic-entity-codes/SpainProvinceCodes";
 import USStateCodes from "@/components/games/geographic-entity-codes/USStateCodes";
 
 import CanadaProvinceNames from "@/components/games/geographic-entity-names/CanadaProvinceNames";
+import ChinaProvinceNames from "@/components/games/geographic-entity-names/ChinaProvinceNames";
 import FranceDepartmentNames from "@/components/games/geographic-entity-names/FranceDepartmentNames";
 import GermanyLandNames from "@/components/games/geographic-entity-names/GermanyLandNames";
 import SpainProvinceNames from "@/components/games/geographic-entity-names/SpainProvinceNames";
@@ -40,18 +43,21 @@ export default {
       markRaw(PreviousLetter),
 
       markRaw(CanadaProvinces),
+      markRaw(ChinaProvinces),
       markRaw(FranceDepartments),
       markRaw(GermanyLands),
       markRaw(SpainProvinces),
       markRaw(USStates),
 
       markRaw(CanadaProvinceCodes),
+      markRaw(ChinaProvinceCodes),
       markRaw(FranceDepartmentCodes),
       markRaw(GermanyLandCodes),
       markRaw(SpainProvinceCodes),
       markRaw(USStateCodes),
 
       markRaw(CanadaProvinceNames),
+      markRaw(ChinaProvinceNames),
       markRaw(FranceDepartmentNames),
       markRaw(GermanyLandNames),
       markRaw(SpainProvinceNames),

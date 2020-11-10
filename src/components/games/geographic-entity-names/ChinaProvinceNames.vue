@@ -1,13 +1,12 @@
 <template>
   <GeographicEntityNames
-    instructions="Canada Province name?"
+    instructions="China Province name?"
     :time="30000"
-    geographic-zone-code="canada"
-    :background-svg="canadaRoadSign"
+    geographic-zone-code="china"
+    :background-svg="chinaRoadSign"
     :name-style="{
-      maxWidth: '220px',
-      marginTop: '15.5rem',
-      fontSize: '1.75rem',
+      maxWidth: '280px',
+      fontSize: '2.5rem',
       color: '#fff',
       textAlign: 'center',
     }"
@@ -16,15 +15,15 @@
 
 <script>
 import GeographicEntityNames from "@/components/games/GeographicEntityNames.vue";
-import canadaRoadSign from "@/assets/canada-road-sign.svg";
+import chinaRoadSign from "@/assets/china-road-sign.svg";
 
 export default {
-  name: "CanadaProvinceNames",
+  name: "ChinaProvinceNames",
   components: {
     GeographicEntityNames,
   },
   data() {
-    return { canadaRoadSign };
+    return { chinaRoadSign };
   },
 };
 </script>
