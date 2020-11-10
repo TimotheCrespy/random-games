@@ -123,7 +123,7 @@ export default {
     color: #fff;
   }
   .instructions {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
   .time {
     margin-top: 1rem;

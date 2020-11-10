@@ -2,6 +2,7 @@ import { ref } from "vue";
 import { useShuffle } from "@/composables/useShuffle";
 const GEOGRAPHIC_ZONE_FILE_CODES = {
   "canada": "canadaProvinces",
+  "china": "chinaProvinces",
   "france": "franceDepartments",
   "germany": "germanyLands",
   "spain": "spainProvinces",
