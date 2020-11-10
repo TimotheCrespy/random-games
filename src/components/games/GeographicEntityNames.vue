@@ -21,9 +21,12 @@
     </div>
 
     <Result :is-success="result" :selected-code="selectedCode" />
-    <strong class="time">Time: {{ (countdown / 1000).toFixed(2) }}s</strong>
-    <strong class="score">Score: {{ score }}</strong>
-    <strong class="best-score">Best score: {{ bestScore }}</strong>
+    <Score
+      :countdown="countdown"
+      :score="score"
+      :bestScore="bestScore"
+      :cumulativeBestScore="cumulativeBestScore"
+    />
   </div>
 </template>
 
@@ -33,11 +36,13 @@ import { useCountdown } from "@/composables/useCountdown";
 import { useScore } from "@/composables/useScore";
 import { useGeography } from "@/composables/useGeography";
 import Result from "@/components/Result.vue";
+import Score from "@/components/Score.vue";
 
 export default {
   name: "GeographicEntityNames",
   components: {
     Result,
+    Score,
   },
   props: {
     time: {
@@ -77,6 +82,7 @@ export default {
     const {
       score,
       bestScore,
+      cumulativeBestScore,
       updateBestScore,
       resetScore,
       incrementScore,
@@ -127,6 +133,7 @@ export default {
       result,
       score,
       bestScore,
+      cumulativeBestScore,
       countdown,
       selectedCode,
     };
@@ -149,17 +156,9 @@ export default {
     rgba(148, 187, 233, 1) 100%
   );
 
-  .instructions,
-  .time,
-  .score,
-  .best-score {
-    color: #fff;
-  }
   .instructions {
-    margin-bottom: 1rem;
-  }
-  .time {
-    margin-top: 1rem;
+    margin-bottom: 2rem;
+    color: #fff;
   }
 
   .road-sign {
@@ -186,6 +185,7 @@ export default {
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
+    margin-bottom: 2rem;
     color: #fff;
 
     .answer {

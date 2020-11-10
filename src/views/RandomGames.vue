@@ -2,7 +2,12 @@
   <component :is="game" />
   <div class="credits">
     <span>
-      By <a href="https://timothecrespy.fr">Tim</a> with ❤️ and
+      By <a href="https://timothecrespy.fr">Tim</a> on
+      <a href="https://github.com/TimotheCrespy/random-games.timothecrespy"
+        >🐙</a
+      >
+      with
+      <a href="https://en.wikipedia.org/wiki/Love">❤️</a> and
       <a href="https://v3.vuejs.org/">Vue 3</a>
     </span>
   </div>
