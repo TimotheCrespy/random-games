@@ -3,6 +3,7 @@ import { useShuffle } from "@/composables/useShuffle";
 const GEOGRAPHIC_ZONE_FILE_CODES = {
   "canada": "canadaProvinces",
   "france": "franceDepartments",
+  "germany": "germanyLands",
   "spain": "spainProvinces",
   "us": "usStates",
 }

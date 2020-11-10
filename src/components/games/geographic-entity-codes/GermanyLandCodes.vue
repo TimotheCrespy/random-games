@@ -1,24 +1,24 @@
 <template>
   <GeographicEntityCodes
-    instructions="US State code?"
+    instructions="Germany Land code?"
     :time="30000"
-    geographic-zone-code="us"
-    :background-svg="usRoadSign"
-    :code-style="{ fontSize: '8rem', color: '#fff' }"
+    geographic-zone-code="germany"
+    :background-svg="germanyRoadSign"
+    :code-style="{ fontSize: '6rem', color: '#000' }"
   />
 </template>
 
 <script>
 import GeographicEntityCodes from "@/components/games/GeographicEntityCodes.vue";
-import usRoadSign from "@/assets/us-road-sign.svg";
+import germanyRoadSign from "@/assets/germany-road-sign.svg";
 
 export default {
-  name: "USStateCodes",
+  name: "GermanyLandCodes",
   components: {
     GeographicEntityCodes,
   },
   data() {
-    return { usRoadSign };
+    return { germanyRoadSign };
   },
 };
 </script>

@@ -1,29 +1,29 @@
 <template>
   <GeographicEntityNames
-    instructions="US State name?"
+    instructions="Germany Land name?"
     :time="30000"
-    geographic-zone-code="us"
-    :background-svg="usFlag"
+    geographic-zone-code="germany"
+    :background-svg="germanyFlag"
     :name-style="{
-      marginBottom: '0rem',
-      marginLeft: '12rem',
-      fontSize: '1.125rem',
-      color: '#fff',
+      maxWidth: `340px`,
+      fontSize: '2.5rem',
+      color: '#FFCE00',
+      textAlign: 'center',
     }"
   />
 </template>
 
 <script>
 import GeographicEntityNames from "@/components/games/GeographicEntityNames.vue";
-import usFlag from "@/assets/us-flag.svg";
+import germanyFlag from "@/assets/germany-flag.svg";
 
 export default {
-  name: "USStateNames",
+  name: "GermanyLandNames",
   components: {
     GeographicEntityNames,
   },
   data() {
-    return { usFlag };
+    return { germanyFlag };
   },
 };
 </script>

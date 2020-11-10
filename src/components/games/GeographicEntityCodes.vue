@@ -172,6 +172,7 @@ export default {
     .background {
       height: 100%;
       max-height: 280px;
+      max-width: 100%;
     }
 
     .code {

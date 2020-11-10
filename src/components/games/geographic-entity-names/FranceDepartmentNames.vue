@@ -3,7 +3,7 @@
     instructions="France department name?"
     :time="30000"
     geographic-zone-code="france"
-    :background-svg="departmentRoadSign"
+    :background-svg="franceRoadSign"
     :name-style="{
       marginLeft: '6.75rem',
       maxWidth: `280px`,
@@ -15,7 +15,7 @@
 
 <script>
 import GeographicEntityNames from "@/components/games/GeographicEntityNames.vue";
-import departmentRoadSign from "@/assets/department-road-sign.svg";
+import franceRoadSign from "@/assets/france-road-sign.svg";
 
 export default {
   name: "FranceDepartmentNames",
@@ -23,7 +23,7 @@ export default {
     GeographicEntityNames,
   },
   data() {
-    return { departmentRoadSign };
+    return { franceRoadSign };
   },
 };
 </script>

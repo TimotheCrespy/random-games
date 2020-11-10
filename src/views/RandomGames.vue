@@ -15,16 +15,19 @@ import PreviousLetter from "@/components/games/PreviousLetter";
 
 import CanadaProvinces from "@/components/games/geographic-entities/CanadaProvinces";
 import FranceDepartments from "@/components/games/geographic-entities/FranceDepartments";
+import GermanyLands from "@/components/games/geographic-entities/GermanyLands";
 import SpainProvinces from "@/components/games/geographic-entities/SpainProvinces";
 import USStates from "@/components/games/geographic-entities/USStates";
 
 import CanadaProvinceCodes from "@/components/games/geographic-entity-codes/CanadaProvinceCodes";
 import FranceDepartmentCodes from "@/components/games/geographic-entity-codes/FranceDepartmentCodes";
+import GermanyLandCodes from "@/components/games/geographic-entity-codes/GermanyLandCodes";
 import SpainProvinceCodes from "@/components/games/geographic-entity-codes/SpainProvinceCodes";
 import USStateCodes from "@/components/games/geographic-entity-codes/USStateCodes";
 
 import CanadaProvinceNames from "@/components/games/geographic-entity-names/CanadaProvinceNames";
 import FranceDepartmentNames from "@/components/games/geographic-entity-names/FranceDepartmentNames";
+import GermanyLandNames from "@/components/games/geographic-entity-names/GermanyLandNames";
 import SpainProvinceNames from "@/components/games/geographic-entity-names/SpainProvinceNames";
 import USStateNames from "@/components/games/geographic-entity-names/USStateNames";
 
@@ -38,16 +41,19 @@ export default {
 
       markRaw(CanadaProvinces),
       markRaw(FranceDepartments),
+      markRaw(GermanyLands),
       markRaw(SpainProvinces),
       markRaw(USStates),
 
       markRaw(CanadaProvinceCodes),
       markRaw(FranceDepartmentCodes),
+      markRaw(GermanyLandCodes),
       markRaw(SpainProvinceCodes),
       markRaw(USStateCodes),
 
       markRaw(CanadaProvinceNames),
       markRaw(FranceDepartmentNames),
+      markRaw(GermanyLandNames),
       markRaw(SpainProvinceNames),
       markRaw(USStateNames),
     ]);
