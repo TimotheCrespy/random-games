@@ -142,11 +142,11 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: rgb(114, 255, 146);
+  background: rgb(238, 174, 202);
   background: radial-gradient(
     circle,
-    rgba(114, 255, 146, 1) 0%,
-    rgba(29, 87, 42, 1) 100%
+    rgba(238, 174, 202, 1) 0%,
+    rgba(148, 187, 233, 1) 100%
   );
 
   .instructions,
@@ -172,7 +172,7 @@ export default {
     .background {
       height: 100%;
       max-height: 340px;
-      max-width: 100vw;
+      max-width: 100%;
     }
 
     .name {
